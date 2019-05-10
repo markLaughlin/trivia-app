@@ -1,4 +1,3 @@
-//https://jobs.github.com/positions.json?description=python&location=new+york
 
 let numberQuestions = 0;
 let numberCorrect = 0;
@@ -171,6 +170,11 @@ function displayResults(gotItRight, cA){
     `
     <p>Thanks for playing!</p>
     <p>You got ${numberCorrect} out of ${numberQuestions} questions correct.</p>
+    <p></p>
+    <form id="formFive">
+      <p></p>
+      <input type="submit" id="submitButtonFive" value="Click To Play Again!"></input>
+    </form>
     `
 
     $("#displayArea").empty();
@@ -206,6 +210,12 @@ function displayResults(gotItRight, cA){
         console.log("formFour submitted");
         $("#displayArea").empty();
         $("#displayArea").append(goodbyeMessage);
+    });
+
+    $("#formFive").submit(function(event){
+        event.preventDefault();
+        console.log("formFive submitted");
+        location.reload();
     });
 }
 
