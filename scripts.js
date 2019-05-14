@@ -7,10 +7,7 @@ function watchForm(){
     
     $("#formOne").submit(function(event){
         event.preventDefault();
-        let s = $("#starter");
         let h = $("header");
-        s.removeClass("hidden");
-        s.addClass("visible");
         h.find("p").addClass("orange");
 
         fetch("https://opentdb.com/api.php?amount=1&category=9&difficulty=hard&type=multiple")
@@ -166,17 +163,6 @@ function displayResults(gotItRight, cA){
     </form>
     `
 
-    let goodbyeMessage = 
-    `
-    <p>Thanks for playing!</p>
-    <p>You got ${numberCorrect} out of ${numberQuestions} questions correct.</p>
-    <p></p>
-    <form id="formFive">
-      <p></p>
-      <input type="submit" id="submitButtonFive" value="Click To Play Again!"></input>
-    </form>
-    `
-
     $("#displayArea").empty();
 
     if(gotItRight == true){
@@ -194,10 +180,7 @@ function displayResults(gotItRight, cA){
         console.log("formThree submitted");
         $("#displayArea").empty();
         event.preventDefault();
-        let s = $("#starter");
         let h = $("header");
-        s.removeClass("hidden");
-        s.addClass("visible");
         h.find("p").addClass("orange");
 
         fetch("https://opentdb.com/api.php?amount=1&category=9&difficulty=hard&type=multiple")
@@ -209,13 +192,46 @@ function displayResults(gotItRight, cA){
         event.preventDefault();
         console.log("formFour submitted");
         $("#displayArea").empty();
-        $("#displayArea").append(goodbyeMessage);
+        restart();
     });
+}
+
+function restart(){
+    console.log("restart function ran");
+
+    let goodbyeMessage = 
+    `
+    <div id="first">
+    <p id="first">Thanks for playing!</p>
+    <p>You got ${numberCorrect} out of ${numberQuestions} questions correct.</p>
+    <p></p>
+    </div>
+
+    <div id="second">
+    <form id="formFive">
+      <p></p>
+      <input type="submit" id="submitButtonFive" value="Click To Play Again!"></input>
+    </form>
+    </div>
+    `
+
+    $("#displayArea").append(goodbyeMessage);
 
     $("#formFive").submit(function(event){
         event.preventDefault();
         console.log("formFive submitted");
-        location.reload();
+        $("#first").find("p").addClass("hidden");
+        $("#second").find("form").addClass("hidden");
+        numberQuestions = 0;
+        numberCorrect = 0;
+
+        let h = $("header");
+        h.find("p").addClass("orange");
+
+        fetch("https://opentdb.com/api.php?amount=1&category=9&difficulty=hard&type=multiple")
+            .then(response => response.json())
+            .then(responseJson => askQuestion(responseJson));
+
     });
 }
 
